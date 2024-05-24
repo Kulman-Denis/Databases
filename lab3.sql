@@ -14,7 +14,7 @@ SELECT * FROM lab1.work WHERE DATEDIFF(CURRENT_DATE, Date) <= 365;
 SELECT * FROM lab1.work WHERE New = 'Yes' ORDER BY Price ASC;
 
 -- 6. Вивести список книг з числом сторінок від 300 до 400, відсортованих в зворотному алфавітному порядку назв
-SELECT * FROM lab1.work WHERE Sides BETWEEN 300 AND 400 ORDER BY Name DESC;
+SELECT * FROM lab1.work WHERE Pages BETWEEN 300 AND 400 ORDER BY Name DESC;
 
 -- 7. Вивести список книг з ціною від 20 до 40, відсортованих за спаданням дати
 SELECT * FROM lab1.work WHERE Price BETWEEN 20 AND 40 ORDER BY Date DESC;
@@ -23,7 +23,7 @@ SELECT * FROM lab1.work WHERE Price BETWEEN 20 AND 40 ORDER BY Date DESC;
 SELECT * FROM lab1.work ORDER BY Name ASC, Price DESC;
 
 -- 9. Вивести книги, у яких ціна однієї сторінки < 10 копійок.
-SELECT * FROM lab1.work WHERE (Price / Sides) < 0.10;
+SELECT * FROM lab1.work WHERE (Price / Pages) < 0.10;
 
 -- 10. Вивести значення наступних колонок: число символів в назві, перші 20 символів назви великими літерами
 SELECT LENGTH(Name) AS Name_Length, UPPER(LEFT(Name, 20)) AS First_20_Capitalized FROM lab1.work;
@@ -44,11 +44,12 @@ SELECT Cod, Price, Price * 36.93 AS UAH, Price * 0.93 AS EUR, Price * 80.16 AS R
 SELECT Cod, Price, FLOOR(Price * 30.3) AS USD, TRUNCATE(Price * 36.93, 0) AS UAH_without_cents, ROUND(Price * 36.93) AS Rounded_UAH FROM lab1.work;
 
 -- 16. Додати інформацію про нову книгу (всі колонки)
-INSERT INTO lab1.work (Numer, Cod, Name, Producer, Sides, Format, Date, Circulation, Topic, Category, Price, New) 
-VALUES (301, 8888, 'Інша нова книга', 'Інший Видавець', 250, '70х100/16', '2024-05-21', 500, 'Інша тема', 'Інша категорія', 0, 'No');
+INSERT INTO lab1.work (Numer, Cod, Name, Producer, Pages, Form, Date, Circulation, Topic, Category, Price, New) 
+VALUES (301, 8919, 'Python', 'Старого Лева', 250, '70х100/16', '2024-05-21', 500, 'Python Класи та обєкти', 'Веб-фреймворки на Python‎', 0, 'No');
 
 -- 17. Додати інформацію про нову книгу (колонки обов'язкові для введення)
-INSERT INTO lab1.work (Cod, Name, Date) VALUES (9999, 'Нова книга', '2024-05-21');
+INSERT INTO lab1.work (Numer, Cod, Name, Date, New, Producer, Pages, Circulation, Topic, Category)
+VALUES (301, 8785, 'Python', '2022-05-21', 'No', 'Символ-Плюс', 250, 500, 'Посібник з мови програмування Python', 'Библиотеки Python‎');
 
 -- 18. Видалити книги, видані до 1990 року
 DELETE FROM lab1.work WHERE YEAR(Date) < 1990;

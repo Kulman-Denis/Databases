@@ -8,12 +8,9 @@ SELECT
 FROM lab1.work;
 
 -- 2. Вивести загальну кількість книг з встановленою ціною
-SELECT  
-    COUNT(*) AS BooksWithPrice 
-FROM lab1.work 
-WHERE Price IS NOT NULL;
+SELECT COUNT(*) AS BooksWithPrice FROM lab1.work WHERE Price IS NOT NULL;
 
--- 3. Вивести статистику для новинок та не новинок
+-- 3. Вивести статистику для книг новинок та не новинок
 SELECT  
     New AS IsNew,
     COUNT(*) AS TotalBooks,
@@ -60,8 +57,9 @@ WHERE Price NOT BETWEEN 10 AND 20
 GROUP BY YEAR(Date)
 ORDER BY TotalBooks DESC;
 
--- 7. Вивести загальну кількість різних кодів книг
+-- 7. Вивести загальну кількість кодів книг і кодів книг що не повторюються
 SELECT 
+    COUNT(Cod) AS TotalBookCodes,
     COUNT(DISTINCT Cod) AS UniqueBookCodes 
 FROM lab1.work;
 
@@ -165,45 +163,42 @@ FROM lab1.work
 GROUP BY IsNew;
 
 -- 17. Вивести статистику по видавництвах
-SELECT  
-    Producer AS Publisher,
-    COUNT(*) AS TotalBooks,
-    SUM(Price) AS TotalValue,
-    AVG(Price) AS AveragePrice,
-    MIN(Price) AS MinPrice,
-    MAX(Price) AS MaxPrice
-FROM lab1.work 
+SELECT
+Producer AS Publisher,
+COUNT(*) AS TotalBooks,
+SUM(Price) AS TotalValue,
+AVG(Price) AS AveragePrice,
+MIN(Price) AS MinPrice,
+MAX(Price) AS MaxPrice
+FROM lab1.work
 GROUP BY Publisher;
 
 -- 18. Вивести статистику за темами і видавництвами
-SELECT  
-    Producer AS Publisher,
-    Topic,
-    COUNT(*) AS TotalBooks,
-    SUM(Price) AS TotalValue,
-    AVG(Price) AS AveragePrice,
-    MIN(Price) AS MinPrice,
-    MAX(Price) AS MaxPrice
-FROM lab1.work 
+SELECT
+Producer AS Publisher,
+Topic,
+COUNT(*) AS TotalBooks,
+SUM(Price) AS TotalValue,
+AVG(Price) AS AveragePrice,
+MIN(Price) AS MinPrice,
+MAX(Price) AS MaxPrice
+FROM lab1.work
 GROUP BY Publisher, Topic
 ORDER BY Publisher, Topic;
 
 -- 19. Вивести статистику за категоріями, темами і видавництвами
-SELECT  
-    Producer AS Publisher,
-    Topic,
-    Category,
-    COUNT(*) AS TotalBooks,
-    SUM(Price) AS TotalValue,
-    AVG(Price) AS AveragePrice,
-    MIN(Price) AS MinPrice,
-    MAX(Price) AS MaxPrice
-FROM lab1.work 
+SELECT
+Producer AS Publisher,
+Topic,
+Category,
+COUNT(*) AS TotalBooks,
+SUM(Price) AS TotalValue,
+AVG(Price) AS AveragePrice,
+MIN(Price) AS MinPrice,
+MAX(Price) AS MaxPrice
+FROM lab1.work
 GROUP BY Publisher, Topic, Category
 ORDER BY Publisher, Topic, Category;
 
 -- 20. Вивести список видавництв з ціною сторінки більше 10 копійок
-SELECT DISTINCT 
-    Producer 
-FROM lab1.work 
-WHERE ROUND(Price / sides, 2) > 0.10;
+SELECT DISTINCT Producer FROM lab1.work WHERE ROUND(Price / Pages, 2) > 0.10;
