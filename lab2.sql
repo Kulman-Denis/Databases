@@ -19,13 +19,13 @@ SELECT * FROM lab1.work WHERE RAND() < 0.1;
 SELECT DISTINCT Cod FROM lab1.work;
 
 -- 7. Вивести всі книги новинки
-SELECT * FROM lab1.work WHERE New = 'Yes';
+SELECT * FROM lab1.work WHERE New = '1';
 
 -- 8. Вивести всі книги новинки з ціною від 20 до 30
-SELECT * FROM lab1.work WHERE New = 'Yes' AND Price BETWEEN 20 AND 30;
+SELECT * FROM lab1.work WHERE New = '1' AND Price BETWEEN 20 AND 30;
 
 -- 9. Вивести всі книги новинки з ціною менше 20 і більше 30
-SELECT * FROM lab1.work WHERE New = 'Yes' AND (Price < 20 OR Price > 30);
+SELECT * FROM lab1.work WHERE New = '1' AND (Price < 20 OR Price > 30);
 
 -- 10. Вивести всі книги з кількістю сторінок від 300 до 400 і з ціною більше 20 і менше 30
 SELECT * FROM lab1.work WHERE Pages BETWEEN 300 AND 400 AND Price BETWEEN 20 AND 30;

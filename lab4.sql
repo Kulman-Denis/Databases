@@ -12,7 +12,7 @@ SELECT COUNT(*) AS BooksWithPrice FROM lab1.work WHERE Price IS NOT NULL;
 
 -- 3. Вивести статистику для книг новинок та не новинок
 SELECT  
-    New AS IsNew,
+    New AS New,
     COUNT(*) AS TotalBooks,
     SUM(Price) AS TotalValue,
     AVG(Price) AS AveragePrice,
