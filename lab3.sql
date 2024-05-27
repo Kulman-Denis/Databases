@@ -51,14 +51,6 @@ SELECT Cod, Price, Price * 36.93 AS UAH, Price * 0.93 AS EUR, Price * 80.16 AS R
 -- 15. Вивести значення наступних колонок: код, ціна, ціна в грн. без копійок, ціна без копійок округлена
 SELECT Cod, Price, FLOOR(Price * 30.3) AS USD, TRUNCATE(Price * 36.93, 0) AS UAH_without_cents, ROUND(Price * 36.93) AS Rounded_UAH FROM lab1.work;
 
--- 16. Додати інформацію про нову книгу (всі колонки)
-INSERT INTO lab1.work (Numer, Cod, Name, Producer, Pages, Form, Date, Circulation, Topic, Category, Price, New) 
-VALUES (301, 8919, 'Python', 'Старого Лева', 250, '70х100/16', '2024-05-21', 500, 'Python Класи та обєкти', 'Веб-фреймворки на Python‎', 0, '0');
-
--- 17. Додати інформацію про нову книгу (колонки обов'язкові для введення)
-INSERT INTO lab1.work (Numer, Cod, Name, Date, New, Producer, Pages, Circulation, Topic, Category)
-VALUES (301, 8785, 'Python', '2022-05-21', '0', 'Символ-Плюс', 250, 500, 'Посібник з мови програмування Python', 'Библиотеки Python‎');
-
 SET SQL_SAFE_UPDATES = 0;
 
 -- 18. Видалити книги, видані до 1990 року
