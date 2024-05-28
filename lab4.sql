@@ -145,9 +145,9 @@ SELECT
     New AS IsNew,
     COUNT(*) AS TotalBooks,
     SUM(Price) AS TotalValue,
-    SUM(Price * 36.93) AS TotalValueUAH,
+    SUM(Price * 38.90) AS TotalValueUAH,
     SUM(Price * 0.93) AS TotalValueEUR,
-    SUM(Price * 80.16) AS TotalValueRUB
+    SUM(Price * 0.42) AS TotalValueRUB
 FROM lab1.work 
 GROUP BY IsNew;
 
@@ -156,9 +156,9 @@ SELECT
     New AS IsNew,
     COUNT(*) AS TotalBooks,
     SUM(Price) AS TotalValue,
-    ROUND(SUM(Price * 36.93), 0) AS TotalValueUAH,
+    ROUND(SUM(Price * 38.90), 0) AS TotalValueUAH,
     ROUND(SUM(Price * 0.93), 0) AS TotalValueEUR,
-    ROUND(SUM(Price * 80.16), 0) AS TotalValueRUB
+    ROUND(SUM(Price * 0.42), 0) AS TotalValueRUB
 FROM lab1.work 
 GROUP BY IsNew;
 

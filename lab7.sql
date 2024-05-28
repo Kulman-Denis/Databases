@@ -1,54 +1,5 @@
-USE lab1;
 
--- DROP PROCEDURE IF EXISTS GetBookTriosWithSamePrice;
-
--- Визов процедури 1
-CALL GetBookData();
-
--- Визов процедури 2
-CALL GetBookDataByTopicAndCategory('Операційні системи', 'Windows 2000');
-
--- Визов процедури 3
-CALL GetBooksByPublisherAndYear();
-
--- Визов процедури 4
-CALL GetTotalPagesByCategory('DESC');
-CALL GetTotalPagesByCategory('ASC');
-
--- Визов процедури 5
-CALL GetAveragePriceByTopicAndCategory('Використання ПК', 'Linux', @avg_price);
-SELECT @avg_price AS Average_Price;
-
--- Визов процедури 6
-CALL GetAllDataFromUniversalView();
-
--- Визов процедури 7
-CALL GetBookPairsWithSamePageCount();
-
--- Визов процедури 8
-CALL GetBookTriosWithSamePrice();
-
--- Визов процедури 9
-CALL GetBooksByCategory('C&C++');
-
--- Визов процедури 10
-CALL GetPublishersWithBooksOverPages(400);
-
--- Визов процедури 11
-CALL GetCategoriesWithMoreThan3Books(3);
-
--- Визов процедури 12
-CALL GetBooksByPublisherIfAtLeastOne('BHV');
-
--- Визов процедури 13
-CALL GetBooksByPublisherIfNone('BHV');
-
--- Визов процедури 14
-CALL GetSortedTopicsAndCategories();
-
--- Визов процедури 15
-CALL GetDistinctFirstWordsInReverseOrder();
-
+DROP PROCEDURE IF EXISTS GetBooksByPublisherAndYear;
 
 -- 1. Вивести значення наступних колонок: назва книги, ціна, назва видавництва, формат.
 DELIMITER //
@@ -62,6 +13,8 @@ BEGIN
 END //
 
 DELIMITER ;
+
+CALL GetBookData();
 
 -- 2. Вивести значення наступних колонок: тема, категорія, назва книги, назва видавництва. Фільтр по темам і категоріям.
 DELIMITER //
@@ -78,6 +31,8 @@ END //
 
 DELIMITER ;
 
+CALL GetBookDataByTopicAndCategory('Операційні системи', 'Windows 2000');
+
 -- 3. Вивести книги видавництва 'BHV', видані після 2000 р.
 DELIMITER //
 
@@ -90,7 +45,9 @@ END //
 
 DELIMITER ;
 
--- 4. Вивести загальну кількість сторінок по кожній назві категорії. Фільтр по спадаючій / зростанню кількості сторінок.
+CALL GetBooksByPublisherAndYear();
+
+-- 4. Вивести загальну кількість сторінок по кожній назві категорії.
 DELIMITER //
 
 CREATE PROCEDURE GetTotalPagesByCategory(IN order_type VARCHAR(10))
@@ -103,6 +60,8 @@ BEGIN
 END //
 
 DELIMITER ;
+
+CALL GetTotalPagesByCategory('DESC');
 
 -- 5. Вивести середню вартість книг по темі 'Використання ПК' і категорії 'Linux'.
 DELIMITER //
@@ -118,6 +77,9 @@ END //
 
 DELIMITER ;
 
+CALL GetAveragePriceByTopicAndCategory('Використання ПК', 'Linux', @avg_price);
+SELECT @avg_price AS Average_Price;
+
 -- 6. Вивести всі дані універсального відношення.
 DELIMITER //
 
@@ -128,6 +90,8 @@ BEGIN
 END //
 
 DELIMITER ;
+
+CALL GetAllDataFromUniversalView();
 
 -- 7. Вивести пари книг, що мають однакову кількість сторінок.
 DELIMITER //
@@ -140,6 +104,8 @@ BEGIN
 END //
 
 DELIMITER ;
+
+CALL GetBookPairsWithSamePageCount();
 
 -- 8. Вивести тріади книг, що мають однакову ціну.
 DELIMITER //
@@ -158,6 +124,7 @@ END //
 
 DELIMITER ;
 
+CALL GetBookTriosWithSamePrice();
 
 -- 9. Вивести всі книги категорії 'C ++'.
 DELIMITER //
@@ -170,6 +137,8 @@ BEGIN
 END //
 
 DELIMITER ;
+
+CALL GetBooksByCategory('C&C++');
 
 -- 10. Вивести список видавництв, у яких розмір книг перевищує 400 сторінок.
 DELIMITER //
@@ -185,6 +154,8 @@ END //
 
 DELIMITER ;
 
+CALL GetPublishersWithBooksOverPages(400);
+
 -- 11. Вивести список категорій за якими більше 3-х книг.
 DELIMITER //
 
@@ -199,6 +170,8 @@ END //
 
 DELIMITER ;
 
+CALL GetCategoriesWithMoreThan3Books(3);
+
 -- 12. Вивести список книг видавництва 'BHV', якщо в списку є хоча б одна книга цього видавництва.
 DELIMITER //
 
@@ -211,6 +184,8 @@ END //
 
 DELIMITER ;
 
+CALL GetBooksByPublisherIfAtLeastOne('BHV');
+
 -- 13. Вивести список книг видавництва 'BHV', якщо в списку немає жодної книги цього видавництва.
 DELIMITER //
 
@@ -222,6 +197,8 @@ BEGIN
 END //
 
 DELIMITER ;
+
+CALL GetBooksByPublisherIfNone('BHV');
 
 -- 14. Вивести відсортований загальний список назв тем і категорій.
 DELIMITER //
@@ -238,6 +215,8 @@ END //
 
 DELIMITER ;
 
+CALL GetSortedTopicsAndCategories();
+
 -- 15. Вивести відсортований в зворотному порядку загальний список перших слів назв книг і категорій що не повторюються
 DELIMITER //
 
@@ -253,3 +232,5 @@ BEGIN
 END //
 
 DELIMITER ;
+
+CALL GetDistinctFirstWordsInReverseOrder();

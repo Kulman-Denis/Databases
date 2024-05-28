@@ -135,3 +135,5 @@ JOIN
     topic Topies ON Books.Topic_ID = Topies.Topic_ID
 JOIN 
     category Categories ON Books.Category_ID = Categories.Category_ID;
+    
+select * FROM book

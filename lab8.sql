@@ -1,47 +1,5 @@
 
-DROP TRIGGER CheckPublisherCategory;
-
--- Тригер 1
-INSERT INTO topic (Topic) VALUES ('1');
-
--- Тригер 2
-INSERT INTO book (Name, Date, New) VALUES ('Books', '2010-04-02', 1);
-
--- Тригер 3
-INSERT INTO book (Name, Pages, Price) VALUES ('Books', 200, 30);
-
--- Тригер 4
-INSERT INTO book (Name, Producer_ID, Circulation) VALUES ('Books', (SELECT Producer_ID FROM producer WHERE Producer = 'BHV' LIMIT 1), 4000);
-
-INSERT INTO book (Name, Producer_ID, Circulation) VALUES ('Books', (SELECT Producer_ID FROM producer WHERE Producer = 'Diasoft' LIMIT 1), 8000);
-
--- Тригер 5
-INSERT INTO book (Name, Code, Price, Producer_ID, Pages, Form_ID, Date, Circulation, Topic_ID, Category_ID, N, New)  
-VALUES ('Books', '4000', 20, 1, 200, 1, '2010-05-27', 5000, 1, 1, '4', 1);
-
--- Тригер 8
-INSERT INTO book (N, Code, New, Name, Price, Producer_ID, Pages, Form_ID, Date, Circulation, Topic_ID, Category_ID) 
-VALUES 
-(9000, '301', 0, 'Books1', 10.00, 5, 90, 1, '2024-05-01', 1000, 1, 1);
-
--- Тригер 9
-INSERT INTO book (N, Code, New, Name, Price, Producer_ID, Pages, Form_ID, Date, Circulation, Topic_ID, Category_ID) 
-VALUES 
-(9000, '301', 1, 'Books1', 10.00, 1, 90, 1, '2024-05-01', 1000, 1, 1),
-(9001, '302', 1, 'Books2', 10.00, 1, 150, 2, '2024-05-02', 1500, 2, 2),
-(9002, '303', 1, 'Books3', 10.00, 1, 250, 3, '2024-05-03', 2000, 3, 3),
-(9003, '304', 1, 'Books4', 10.00, 1, 90, 1, '2024-05-04', 1000, 1, 1),
-(9004, '305', 1, 'Books5', 10.00, 1, 150, 2, '2024-05-05', 1500, 2, 2),
-(9005, '306', 1, 'Books6', 10.00, 1, 250, 3, '2024-05-06', 2000, 3, 3),
-(9006, '307', 1, 'Books7', 10.00, 1, 150, 2, '2024-05-07', 1500, 2, 2),
-(9007, '308', 1, 'Books8', 10.00, 1, 250, 3, '2024-05-08', 2000, 3, 3),
-(9008, '309', 1, 'Books9', 10.00, 1, 90, 1, '2024-05-09', 1000, 1, 1),
-(9009, '310', 1, 'Books10', 10.00, 1, 150, 2, '2024-05-10', 1500, 2, 2),
-(9010, '311', 1, 'Books11', 10.00, 1, 250, 3, '2024-05-11', 2000, 3, 3);
-
--- Тригер 10
-INSERT INTO book (N, Code, New, Name, Price, Producer_ID, Pages, Form_ID, Date, Circulation, Topic_ID, Category_ID) VALUES
-(2, 5110, 0, 'Апаратні засоби мультимедіа.Відеосистема PC', 15.51, 1, 400, 1, '2000-07-24', 5000, 1, 1),
+DROP TRIGGER CheckPublisherCirculation;
 
 -- 1. Кількість тем може бути в діапазоні від 5 до 10.
 DELIMITER //
@@ -61,6 +19,8 @@ END //
 
 DELIMITER ;
 
+INSERT INTO topic (Topic) VALUES ('1');
+
 -- 2. Новинкою може бути тільки книга видана в поточному році.
 DELIMITER //
 CREATE TRIGGER CheckNewBookYear
@@ -72,6 +32,8 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
+INSERT INTO book (Name, Date, New) VALUES ('Books', '2010-04-02', 1);
 
 -- 3. Книга з кількістю сторінок до 100 не може коштувати більше 10 $, до 200 - 20 $, до 300 - 30 $.
 DELIMITER //
@@ -89,6 +51,8 @@ BEGIN
 END //
 DELIMITER ;
 
+INSERT INTO book (Name, Pages, Price) VALUES ('Books', 200, 30);
+
 -- 4. Видавництво "BHV" не випускає книги накладом меншим 5000, а видавництво Diasoft - 10000.
 DELIMITER //
 CREATE TRIGGER CheckPublisherCirculation
@@ -105,6 +69,9 @@ BEGIN
 END //
 DELIMITER ;
 
+INSERT INTO book (Name, Producer_ID, Circulation) VALUES ('Books', (SELECT Producer_ID FROM producer WHERE Producer = 'BHV' LIMIT 1), 4000);
+INSERT INTO book (Name, Producer_ID, Circulation) VALUES ('Books', (SELECT Producer_ID FROM producer WHERE Producer = 'Diasoft' LIMIT 1), 8000);
+
 -- 5. Книги з однаковим кодом повинні мати однакові дані.
 DELIMITER //
 CREATE TRIGGER CheckBookCodeConsistency
@@ -118,6 +85,10 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
+INSERT INTO book (Name, Code, Price, Producer_ID, Pages, Form_ID, Date, Circulation, Topic_ID, Category_ID, N, New)  
+VALUES ('Book', '9999', 20, 1, 200, 1, '2010-05-27', 5000, 1, 1, '4', 1),
+('Books', '9999', 20, 1, 200, 1, '2010-05-27', 5000, 1, 1, '4', 1);
 
 -- 6. При спробі видалення книги видається інформація про кількість видалених рядків. Якщо користувач не "dbo", то видалення забороняється.
 DELIMITER //
@@ -161,7 +132,9 @@ END //
 
 DELIMITER ;
 
-
+INSERT INTO book (N, Code, New, Name, Price, Producer_ID, Pages, Form_ID, Date, Circulation, Topic_ID, Category_ID) 
+VALUES 
+(9000, '301', 0, 'Books1', 10.00, 5, 90, 1, '2024-05-01', 1000, 1, 1);
 
 -- 9. Видавництво не може випустити більше 10 новинок протягом одного місяця поточного року.
 DELIMITER //
@@ -183,6 +156,20 @@ END //
 
 DELIMITER ;
 
+INSERT INTO book (N, Code, New, Name, Price, Producer_ID, Pages, Form_ID, Date, Circulation, Topic_ID, Category_ID) 
+VALUES 
+(9000, '301', 1, 'Books1', 10.00, 1, 90, 1, '2024-05-01', 1000, 1, 1),
+(9001, '302', 1, 'Books2', 10.00, 1, 150, 2, '2024-05-02', 1500, 2, 2),
+(9002, '303', 1, 'Books3', 10.00, 1, 250, 3, '2024-05-03', 2000, 3, 3),
+(9003, '304', 1, 'Books4', 10.00, 1, 90, 1, '2024-05-04', 1000, 1, 1),
+(9004, '305', 1, 'Books5', 10.00, 1, 150, 2, '2024-05-05', 1500, 2, 2),
+(9005, '306', 1, 'Books6', 10.00, 1, 250, 3, '2024-05-06', 2000, 3, 3),
+(9006, '307', 1, 'Books7', 10.00, 1, 150, 2, '2024-05-07', 1500, 2, 2),
+(9007, '308', 1, 'Books8', 10.00, 1, 250, 3, '2024-05-08', 2000, 3, 3),
+(9008, '309', 1, 'Books9', 10.00, 1, 90, 1, '2024-05-09', 1000, 1, 1),
+(9009, '310', 1, 'Books10', 10.00, 1, 150, 2, '2024-05-10', 1500, 2, 2),
+(9010, '311', 1, 'Books11', 10.00, 1, 250, 3, '2024-05-11', 2000, 3, 3);
+
 -- 10. Видавництво BHV не випускає книги формату 60х88 / 16.
 DELIMITER //
 
@@ -190,9 +177,24 @@ CREATE TRIGGER CheckBhvBookFormat
 BEFORE INSERT ON book
 FOR EACH ROW
 BEGIN
-   IF (SELECT Producer FROM producer WHERE Producer_ID = NEW.Producer_ID) = 'BHV' AND (SELECT Form FROM form WHERE Form_ID = NEW.Form_ID) = '60х88/16' THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Видавництво BHV не випускає книги формату 60х88 / 16';
+    DECLARE producer_name VARCHAR(50);
+    DECLARE form_name VARCHAR(30);
+
+    SELECT Producer INTO producer_name
+    FROM producer
+    WHERE Producer_ID = NEW.Producer_ID;
+
+    SELECT Form INTO form_name
+    FROM form
+    WHERE Form_ID = NEW.Form_ID;
+
+    IF producer_name = 'BHV' AND form_name = '60х88/16' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Видавництво BHV не випускає книги формату 60х88/16';
     END IF;
 END //
 
 DELIMITER ;
+
+
+INSERT INTO book (N, Code, New, Name, Price, Producer_ID, Pages, Form_ID, Date, Circulation, Topic_ID, Category_ID) VALUES
+(2, 511, 0, 'Апаратні засоби мультимедіа.Відеосистема PC', 15.51, 1, 400, 3, '2000-07-24', 5000, 1, 1);

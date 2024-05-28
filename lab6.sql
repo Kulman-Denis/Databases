@@ -73,7 +73,7 @@ SELECT * FROM book
 WHERE Category_ID = (
     SELECT Category_ID
     FROM category
-    WHERE Category = 'C++'
+    WHERE Category = 'C&C++'
 );
 
 -- 14. Вивести книги видавництва 'BHV', видані після 2000 р. Використовувати підзапити (subquery).
