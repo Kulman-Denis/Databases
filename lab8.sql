@@ -90,21 +90,28 @@ INSERT INTO book (Name, Code, Price, Producer_ID, Pages, Form_ID, Date, Circulat
 VALUES ('Book', '9999', 20, 1, 200, 1, '2010-05-27', 5000, 1, 1, '4', 1),
 ('Books', '9999', 20, 1, 200, 1, '2010-05-27', 5000, 1, 1, '4', 1);
 
--- 6. При спробі видалення книги видається інформація про кількість видалених рядків. Якщо користувач не "dbo", то видалення забороняється.
+-- 6. При спробі видалення книги видається інформація про кількість видалених рядків. Якщо користувач не "dbo", то видалення забороняється.--------------
+SHOW TRIGGERS;
 DELIMITER //
+
 CREATE TRIGGER BeforeDeleteBook
 BEFORE DELETE ON book
 FOR EACH ROW
 BEGIN
-    declare user_name varchar(255);
-    Set user_name = substring_index2(session_user(),'@',1);
-    if user_name != 'dbo' then
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Видалення забороненно для цього користувача';
-    end if;
-    end//
+    DECLARE user_name VARCHAR(255);
+    SET user_name = SUBSTRING_INDEX(USER(), '@', 1);
+
+    IF user_name != 'dbo' THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Видалення заборонено для цього користувача';
+    END IF;
+END//
+
 DELIMITER ;
 
--- 7. Користувач "dbo" не має права змінювати ціну книги.
+DELETE FROM book WHERE N = 1;
+
+-- 7. Користувач "dbo" не має права змінювати ціну книги.-------------------------
 DELIMITER //
 
 CREATE TRIGGER AfterDeleteBook
@@ -117,6 +124,8 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELETE FROM book WHERE N = 1;
 
 -- 8. Видавництва ДМК і Еком підручники не видають.
 DELIMITER //

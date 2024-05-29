@@ -1,5 +1,5 @@
 
-DROP PROCEDURE IF EXISTS GetBooksByPublisherAndYear;
+DROP PROCEDURE IF EXISTS GetBookPairsWithSamePageCount;
 
 -- 1. Вивести значення наступних колонок: назва книги, ціна, назва видавництва, формат.
 DELIMITER //
@@ -93,14 +93,15 @@ DELIMITER ;
 
 CALL GetAllDataFromUniversalView();
 
--- 7. Вивести пари книг, що мають однакову кількість сторінок.
+-- 7. Вивести пари книг, що мають однакову кількість сторінок.--------------------------------------------
 DELIMITER //
 
 CREATE PROCEDURE GetBookPairsWithSamePageCount()
 BEGIN
-    SELECT DISTINCT b1.Name AS Book1, b2.Name AS Book2, b1.Pages
-    FROM book b1, book b2
-    WHERE b1.N <> b2.N AND b1.Pages = b2.Pages;
+    SELECT b1.Name AS Book1, b2.Name AS Book2, b1.Pages
+    FROM book b1
+    JOIN book b2 ON b1.Pages = b2.Pages AND b1.N < b2.N
+    ORDER BY b1.Pages;
 END //
 
 DELIMITER ;

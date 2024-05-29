@@ -57,16 +57,19 @@ SELECT uv.*
 FROM universal_view uv
 LEFT JOIN producer p ON uv.Producer = p.Producer;
 
--- 11. Вивести пари книг, що мають однакову кількість сторінок. Використовувати само об’єднання і аліаси (self join).
+-- 11. Вивести пари книг, що мають однакову кількість сторінок. Використовувати само об’єднання і аліаси (self join).-------------------
 SELECT b1.Name AS Book1, b2.Name AS Book2, b1.Pages
 FROM book b1
-JOIN book b2 ON b1.Pages = b2.Pages AND b1.Name <> b2.Name;
+JOIN book b2 ON b1.Pages = b2.Pages AND b1.N < b2.N
+ORDER BY b1.Pages;
 
--- 12. Вивести тріади книг, що мають однакову ціну. Використовувати самооб'єднання і аліаси (self join).
+-- 12. Вивести тріади книг, що мають однакову ціну. Використовувати самооб'єднання і аліаси (self join).-------------------
 SELECT b1.Name AS Book1, b2.Name AS Book2, b3.Name AS Book3, b1.Price
 FROM book b1
-JOIN book b2 ON b1.Price = b2.Price AND b1.Name <> b2.Name
-JOIN book b3 ON b1.Price = b3.Price AND b1.Name <> b3.Name AND b2.Name <> b3.Name;
+JOIN book b2 ON b1.Price = b2.Price AND b1.N < b2.N
+JOIN book b3 ON b1.Price = b3.Price AND b2.N < b3.N
+ORDER BY b1.Price;
+
 
 -- 13. Вивести всі книги категорії 'C ++'. Використовувати підзапити (subquery).
 SELECT * FROM book
